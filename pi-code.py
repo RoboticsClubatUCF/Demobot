@@ -6,9 +6,11 @@ from flask import Flask
 
 def setup():
 
-	print("SETTING UP")
+	print("SETTING UP") #debug print
 
-	global ser
+	global turning #used for the turn methods
+	global ser #allows for manipulation of variable everywhere in the code 
+
 	ser = serial.Serial('/dev/ttyAMA0',9600, timeout=1) #establish serial connection
 
 	if(check_connect()):
@@ -19,7 +21,7 @@ def setup():
 
 def check_connect():  #checking for internet connection
 
-
+	
 	try:
 		urllib2.urlopen('http://216.58.192.142', timeout=1)
 		return True
@@ -31,7 +33,6 @@ def check_connect():  #checking for internet connection
 
 def turn_right(time): #where time is in seconds
 	
-	global turning
 	turning = True
 	x = 0
 	while(turning):
@@ -60,7 +61,7 @@ def turn_left(time):
 	ser.write(chr(int('0'))) # shuts down motors	
 	return	
 
-def forward(speed, time): #takes value in range 1-64
+def forward(speed, time): #takes value in range 1-64, 65-128 runs reverse
 
 	x = 0
 	while(x < time):
