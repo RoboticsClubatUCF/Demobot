@@ -9,6 +9,10 @@ def setup():
 	print("SETTING UP")
 
 	global ser
+	global forward = False
+	global left = False
+	global right = False
+
 	ser = serial.Serial('/dev/ttyAMA0',9600, timeout=1) #establish serial connection
 
 	if(check_connect()):
@@ -85,3 +89,6 @@ def main():
 			turn_right(1/30)
 		if(forward):
 			turn_left(1/30)		
+
+		time.sleep(1/30):
+				
