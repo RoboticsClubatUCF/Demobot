@@ -18,13 +18,13 @@ class VideoCamera(object):
 		# self.video = cv2.VideoCapture('video.mp4')
 
 		# define the lower and upper boundaries of the "green"
-                # ball in the HSV color space, then initialize the
-                # list of tracked points
-                self.yellowUpper = (30,135,255)
-                self.yellowLower = (25,102,109)
-                self.pinkLower = (121,39,98)
-                self.pinkUpper = (240,255,255)
-                self.pts = deque(maxlen=64)
+        # ball in the HSV color space, then initialize the
+        # list of tracked points
+        self.yellowUpper = (30,135,255)
+        self.yellowLower = (25,102,109)
+        self.pinkLower = (121,39,98)
+        self.pinkUpper = (240,255,255)
+        self.pts = deque(maxlen=64)
     
 	def __del__(self):
 		self.video.release()
@@ -88,11 +88,44 @@ class VideoCamera(object):
 			thickness = int(np.sqrt(64 / float(i + 1)) * 2.5)
 			cv2.line(frame, self.pts[i - 1], self.pts[i], (0, 0, 255), thickness)
 
-		
-		
-		
-
 		ret, jpeg = cv2.imencode('.jpg', frame)
 		return jpeg.tostring()
 
-        
+
+	def get_circle_frame(self):
+
+		success, frame = self.video.read()
+
+		gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+		circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT)
+
+		if circles != None:
+			circles = np.round(circles[0, :]).astype("int")
+
+			for (x, y, r) in circles:
+
+				cv2.circle(output, (x,y), r, (0,255,0),4)
+				cv2.rectangle(output, (x-5, y-5), (x+5, y+5), (0,128,255), -1)
+
+		# update the points queue
+		self.pts.appendleft(center)
+
+		# loop over the set of tracked points
+		for i in xrange(1, len(self.pts)):
+			# if either of the tracked points are None, ignore
+			# them
+			if self.pts[i - 1] is None or self.pts[i] is None:
+				continue
+
+			# otherwise, compute the thickness of the line and
+			# draw the connecting lines
+			thickness = int(np.sqrt(64 / float(i + 1)) * 2.5)
+			cv2.line(frame, self.pts[i - 1], self.pts[i], (0, 0, 255), thickness)		
+
+		ret, jpeg = cv2.imencode('.jpg', frame)
+		return jpeg.tostring()		
+
+				
+
+		
