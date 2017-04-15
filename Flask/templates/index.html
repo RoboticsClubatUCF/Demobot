@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+   <title>RPi Web Server</title>
+   <!-- Latest compiled and minified CSS -->
+   <link rel="stylesheet" href="RPi%20Web%20Server_files/bootstrap.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+   <!-- Optional theme -->
+   <link rel="stylesheet" href="RPi%20Web%20Server_files/bootstrap-theme.css" integrity="sha384-fLW2N01lMqjakBkx3l/M9EahuwpSfeNvV63J5ezn3uZzapT0u7EYsXMjQV+0En5r" crossorigin="anonymous">
+   <!-- Latest compiled and minified JavaScript -->
+   <script src="RPi%20Web%20Server_files/bootstrap.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</head>
+
+<body>
+   <h1>DemoBot Controller</h1>
+   
+   <div>
+    <form action="/direction/forward" method="post" style="float: top; height: 33%;">
+		<button name="forward" value="GO">forward</button>
+	</form>
+	
+     <div style="float: top; height: 33%;">
+       <form action="/direction/left" method="post" style="float: left; width: 5%;">
+		   <button name="left" value="GO">left</button>
+	   </form>
+	
+	   <form action="/direction/stop" method="post" style="float: left; width: 5%;">
+		   <button name="stop" value="GO">stop</button>
+	   </form>
+   
+       <form action="/direction/right" method="post" style="float: left; width: 5%;">
+		   <button name="right" value="GO">right</button>
+	   </form>
+	   <div style="float: left; width: 85%;"><br></div>
+     </div>
+     
+    <form action="/direction/reverse" method="post" style="float: top; height: 33%;">
+		<button name="reverse" value="GO">reverse</button>
+	</form>
+   
+    
+   </div>
+
+   <img src="/video_feed" style="width:640px;">
+	
+
+</body></html>
