@@ -116,7 +116,7 @@ def track():
 			# point = (250, )
 			# cv2.circle(frame, point, 2, (255,255,255), thickness=1,lineType=8,shift=0)
 
-		checkRange(pts)	
+		checkRange(pts)	# uses our check range function to attempt to center the bot  
 		# show the frame to our screen
 		cv2.imshow("Frame", frame)
 		key = cv2.waitKey(1) & 0xFF
@@ -125,6 +125,7 @@ def track():
 		if key == ord("q"):
 			break
 
+# VERY VERY UNTESTED 4/15/17			
 def checkRange(pts):
 		
 	center = 250	
@@ -173,6 +174,7 @@ def check_connect():  #checking for internet connection
 
 	return False	
 
+#UNTESTED 4/15/17
 def step_right(): #a turn that rotates the bot a set distance, rather than for a set time
 
 	stepTime = 5 #how long the turn takes, different depending on "size" of step
@@ -190,6 +192,7 @@ def step_right(): #a turn that rotates the bot a set distance, rather than for a
 	ser.write(chr(int('0'))) # shuts down motors		
 	return
 
+#UNTESTED 4/15/17
 def step_left(): #a turn that rotates the bot a set distance, rather than for a set time
 
 	stepTime = 5 #how long the turn takes, different depending on "size" of step
