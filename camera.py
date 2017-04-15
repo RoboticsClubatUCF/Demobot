@@ -101,27 +101,12 @@ class VideoCamera(object):
 		circles = cv2.HoughCircles(gray, cv2.cv.CV_HOUGH_GRADIENT)
 
 		if circles != None:
+
 			circles = np.round(circles[0, :]).astype("int")
 
 			for (x, y, r) in circles:
-
-				cv2.circle(output, (x,y), r, (0,255,0),4)
-				cv2.rectangle(output, (x-5, y-5), (x+5, y+5), (0,128,255), -1)
-
-		# update the points queue
-		self.pts.appendleft(center)
-
-		# loop over the set of tracked points
-		for i in xrange(1, len(self.pts)):
-			# if either of the tracked points are None, ignore
-			# them
-			if self.pts[i - 1] is None or self.pts[i] is None:
-				continue
-
-			# otherwise, compute the thickness of the line and
-			# draw the connecting lines
-			thickness = int(np.sqrt(64 / float(i + 1)) * 2.5)
-			cv2.line(frame, self.pts[i - 1], self.pts[i], (0, 0, 255), thickness)		
+				cv2.circle(frame, (x,y), r, (0,255,0),4)
+				cv2.rectangle(frame, (x-5, y-5), (x+5, y+5), (0,128,255), -1)
 
 		ret, jpeg = cv2.imencode('.jpg', frame)
 		return jpeg.tostring()		
