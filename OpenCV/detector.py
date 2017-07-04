@@ -2,6 +2,12 @@ from shapedetector import ShapeDetector
 import imutils
 import cv2
 
+''' FUNCTION: this file can be used to detect simple polygons (triangle, squares, rectangles) as well as circles
+	      also makes use of adaptive thresholding, which mitigates the issues with lighting (somewhat)
+    MAKES USE OF : class ShapeDetector from file shapedetector.py
+'''    
+
+
 camera = cv2.VideoCapture(0)
 camera.set(4, 240)
 camera.set(3, 320)
@@ -27,8 +33,8 @@ while True:
 
 		M = cv2.moments(c)
 		if M["m00"] != 0:
-			cX = int((M["m10"] / M["m00"]))
-			cY = int((M["m01"] / M["m00"]))
+			cX = int((M["m10"] / M["m00"]) * ratio)
+			cY = int((M["m01"] / M["m00"]) * ratio)
 		else:
 			cX, cY = 0,0	
 
