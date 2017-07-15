@@ -1,11 +1,11 @@
 # Motor serial information:
 # MOTOR 1: 1 reverse, 64 stop, 127 forward
-# MOTOR 2: 128 reverse, 192 stop, 225 forward
+# MOTOR 2: 128 reverse, 192 stop, 255 forward
 
 # Screen is divided into 3 sections, motors are directed depending
 # on which section of screen the ball is in
 
-# SAMUS BOT
+# SAMUSBOT
 
 import cv2
 import serial
@@ -27,30 +27,32 @@ def empty(z):
 ##### Functions #####
 
 def turnLeft():
-    print("Ball to the left")
+    #print("Ball to the left")
     ser.write(chr(int('255'))) #motor2 max forward
     ser.write(chr(int('1')))   #motor1 max reverse
 def turnRight():
-    print("Ball to the right")
+    #print("Ball to the right")
     ser.write(chr(int('127'))) #motor1 max forward
     ser.write(chr(int('128'))) #motor2 max reverse 
 def forward():
-    print("Ball is in center")
-    ser.write(chr(int(str(127)))) #motor1 max forward
-    ser.write(chr(int(str(255)))) #motor2 max forward
+    #print("Ball is in center")
+    ser.write(chr(int('127'))) #motor1 max forward
+    ser.write(chr(int('255'))) #motor2 max forward
 def search():
-    print("SEARCHING")
-    ser.write(chr(int('224'))) #motor2 1/2 forward
-    ser.write(chr(int('32'))) #motor2 1/2 backward
+    #print("SEARCHING")
+    ser.write(chr(int('127'))) #motor2 max forward
+    ser.write(chr(int('128'))) #motor2 max backward
 def closeClaw():  
-    ser.write(chr(int('0'))) # stop motors
+    #ser.write(chr(int('0'))) # stop motors
     p.ChangeDutyCycle(2.5) # set servo to 0 degrees (closed position for claw)
-    print("Closing claws")
+    #print("Closing claws")
     clawOpen = 0 #false
+    return clawOpen
 def openClaw():
-    p.ChangeDutyCycle(12.5) # sets servo to 180 degrees (open position for claw)
-    print("Opening claws")
+    p.ChangeDutyCycle(7.5) # sets servo to 180 degrees (open position for claw)
+    #print("Opening claws")
     clawOpen = 1 #true
+    return clawOpen
 
 ##### Variables #####    
 
@@ -60,10 +62,8 @@ width = 160
 third = width/3
 twothird = third + third
 minArea = 1 # minimum area to track object
-criticalArea = 5000 # area to close claws (may be too large)
+criticalArea = 13000 # area to close claws (may be too large)
 clawOpen = 0 # 0 is false, 1 is true, shows if claw is open
-
-# criticalArea for pink ball: 5000
 
 ##### Camera/serial setup #####
 
@@ -77,15 +77,17 @@ if cam.isOpened():
 openClaw()
 while (True):
   
+
 ##### Setting up image tracking #####
 
     # tennis ball (neon green): min: (30, 233, 125), max: (192, 255, 255)
     # big ball (pink): min: (121, 39, 98), max: (240, 255, 255)
     # taped ball (neon orange): min: (0,71,179), max: (11, 255, 255)
+    # dark green taylormade ball: min: (57,137,54), max: (73,255,255)
 
     ret,frame = cam.read()
     hsv=cv2.cvtColor(frame,cv2.COLOR_BGR2HSV)
-    image_mask=cv2.inRange(hsv,np.array([121, 39, 98]),np.array([240, 255, 255]))   
+    image_mask=cv2.inRange(hsv,np.array([121,39,98]),np.array([240,255,255]))   
     erode=cv2.erode(image_mask,None,iterations=3)
     moments=cv2.moments(erode,True)
     area=moments['m00']
@@ -97,16 +99,16 @@ while (True):
         x=moments['m10']/moments['m00']
         y=moments['m01']/moments['m00']
         cv2.circle(frame,(int(x),int(y)),5,(0,255,0),-1)
-        # if area is large enough, stop
+        # if area is large enough, stop, close claw
         if (area >= criticalArea):
-	    closeClaw()
-	else:	
+  	    if(clawOpen == 1):
+                clawOpen = closeClaw()
+        else:	
 	    if (clawOpen == 0):
-		openClaw()
-		
+	 	clawOpen = openClaw()
             # if ball on right third of camera
             if (x>twothird):
-                turnRight()
+             	turnRight()
             # if ball on left third of camera
             elif (x<third):
                 turnLeft()
@@ -129,3 +131,5 @@ p.stop # stopping PWM
 gpio.cleanup() # resets GPIO pin
 cv2.destroyAllWindow()
 cam.release()
+
+
