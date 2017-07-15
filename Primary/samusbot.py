@@ -43,10 +43,11 @@ def search():
     ser.write(chr(int('127'))) #motor2 max forward
     ser.write(chr(int('128'))) #motor2 max backward
 def closeClaw():  
-    #ser.write(chr(int('0'))) # stop motors
+    ser.write(chr(int('0'))) # stop motors
     p.ChangeDutyCycle(2.5) # set servo to 0 degrees (closed position for claw)
     #print("Closing claws")
     clawOpen = 0 #false
+    time.sleep(2) # pause for 2 seconds
     return clawOpen
 def openClaw():
     p.ChangeDutyCycle(7.5) # sets servo to 180 degrees (open position for claw)
@@ -102,7 +103,7 @@ while (True):
         # if area is large enough, stop, close claw
         if (area >= criticalArea):
   	    if(clawOpen == 1):
-                clawOpen = closeClaw()
+                clawOpen = closeClaw()                
         else:	
 	    if (clawOpen == 0):
 	 	clawOpen = openClaw()
@@ -120,16 +121,18 @@ while (True):
     if (area<minArea ):
         search()
 
-    # Shows two video windows    
-    cv2.imshow('eroded',erode)
-    cv2.imshow('frame',frame)
-    if cv2.waitKey(1)==27:
-        break
+   # VID WINDOWS DISABLED : Won't run on startup without disabled windows
+   # Shows two video windows    
+   # cv2.imshow('eroded',erode)
+   # cv2.imshow('frame',frame)
+   # if cv2.waitKey(1)==27:
+   #     break
 
 
 p.stop # stopping PWM
 gpio.cleanup() # resets GPIO pin
-cv2.destroyAllWindow()
+#cv2.destroyAllWindow() # not needed since vid windows are disabled
 cam.release()
+
 
 
