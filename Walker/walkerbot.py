@@ -1,5 +1,3 @@
-# Prototype code for walker-bot
-
 import cv2
 import numpy as np
 import RPi.GPIO as GPIO
@@ -7,30 +5,46 @@ import time
 
 # WALKERBOT
 
+# GPIO pins that servos are connected to:
+# 11, 13, 15, 40, 38, 36
+# SERVO controls:
+# 7.5 neutral, 2.5 is zero, 12.5 is 180
+
 ##### Servo setup #####
 # For AR-3600HB Robot Servo
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
 GPIO.setup(11, GPIO.OUT) # pin 11 used 
-GPIO.setup(15, GPIO.OUT) # pin 15 used
+GPIO.setup(13, GPIO.OUT) # pin 15 used
+GPIO.setup(15, GPIO.OUT)
+GPIO.setup(36, GPIO.OUT)
 ##### PWM setup #####
-p = GPIO.PWM(11, 50) # setting pin to pulse-width modulation with frequency of 50 hertz 
-q = GPIO.PWM(15, 50)
-p.start(7.5) # sets duty cycle to 7.5 (neutral)
-q.start(7.5)
+s11 = GPIO.PWM(11, 50) # setting pin to pulse-width modulation with frequency of 50 hertz 
+s13 = GPIO.PWM(13, 50)
+s15 = GPIO.PWM(15, 50)
+s36 = GPIO.PWM(36, 50)
+s11.start(7.5) # sets duty cycle to 7.5 (neutral)
+s13.start(7.5)
+s15.start(7.5)
+s36.start(7.5)
+
 
 def empty(z):
     pass
 
 def forwardStride(): # stepping legs forward
-    q.ChangeDutyCycle(12.5)
-    p.ChangeDutyCycle(12.5)
+    s11.ChangeDutyCycle(12.5)
+    s13.ChangeDutyCycle(7.5)
+    s15.ChangeDutyCycle(12.5)
+    s36.ChangeDutyCycle(7.5)
     #print("Forward Stride")
     move = 1 #true
     return move
 def forwardPull(): # pulling body forward
-    q.ChangeDutyCycle(2.5)
-    p.ChangeDutyCycle(2.5)
+    s11.ChangeDutyCycle(7.5)
+    s13.ChangeDutyCycle(12.5)
+    s15.ChangeDutyCycle(7.5)
+    s36.ChangeDutyCycle(12.5)
     #print("Forward Pull")
     move = 0 #false
     return move
@@ -47,7 +61,7 @@ move = 0 # move legs
 cTime = 0 # current time
 pTime = 0 # previous time
 timeDiff = 0 # time difference since last loop
-Timer = 1 # time to wait
+Timer = .25 # time to wait
 
 
 ##### Camera/serial setup #####
@@ -90,7 +104,7 @@ while (True):
                     move = forwardPull() # 180 degree
                 elif(move == 0):
                     move = forwardStride() # 180 degree
-	        Timer = 1
+	        Timer = .25 # resetting timer
     
     cv2.imshow('eroded',erode)
     cv2.imshow('frame',frame)
@@ -98,8 +112,11 @@ while (True):
         break
 
 
-p.stop # stopping PWM
-q.stop
+s11.stop # stopping PWM
+s13.stop
+s15.stop
+s36.stop
 gpio.cleanup() # resets GPIO pin
 cv2.destroyAllWindow()
 scam.release()
+
