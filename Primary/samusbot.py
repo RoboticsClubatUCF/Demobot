@@ -143,4 +143,3 @@ while (True):
         gpio.cleanup() # resets GPIO pin
         #cv2.destroyAllWindows() # not needed since vid windows are disabled
         cam.release()
-
