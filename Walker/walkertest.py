@@ -2,6 +2,7 @@ import cv2
 import numpy as np
 import RPi.GPIO as GPIO
 import time
+from leg import Leg
 
 # TEST
 
@@ -9,23 +10,6 @@ import time
 # Leg 1: (11 : horizontal shoulder, 13 : vertical shoulder)
 # SERVO controls:
 # 7.5 neutral, 2.5 is zero, 12.5 is 180
-
-# Leg class for grouping servos and making things easier
-class Leg():
-    def __init__(self, name, h_servo, v_servo, adj_leg):
-        # h for horizontal shoulder
-        # v for vertical shoulder
-        # k for knee joint
-        self.name = name
-        self.h_servo = h_servo
-        self.v_servo = v_servo
-        self.adj_leg_servo = adj_leg.h_servo
-        #self.k_servo = k_servo
-    def step():
-        #step leg forward
-        #v_servo up
-        #h_servo forward & adj_leg_servo backward
-        #v_sevo down
 
 ##### Servo setup #####
 # For AR-3600HB Robot Servo
@@ -121,4 +105,3 @@ except(KeyboardInterrupt):
     gpio.cleanup() # resets GPIO pin
     cv2.destroyAllWindow()
     scam.release()
-
