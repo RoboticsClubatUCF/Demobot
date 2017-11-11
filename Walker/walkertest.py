@@ -6,36 +6,15 @@ from leg import Leg
 
 # TEST
 
-# GPIO pins that servos are connected to:
-# Leg 1: (11 : horizontal shoulder, 13 : vertical shoulder)
-# SERVO controls:
-# 7.5 neutral, 2.5 is zero, 12.5 is 180
-
 ##### Servo setup #####
 # For AR-3600HB Robot Servo
 GPIO.setmode(GPIO.BOARD)
 GPIO.setwarnings(False)
-GPIO.setup(11, GPIO.OUT) # pin 11 used 
-GPIO.setup(13, GPIO.OUT) # pin 13 used
 
-##### PWM setup #####
-s11 = GPIO.PWM(11, 50) # setting pin to pulse-width modulation with frequency of 50 hertz 
-s13 = GPIO.PWM(13, 50)
-s11.start(7.5) # sets duty cycle to 7.5 (neutral)
-s13.start(7.5)
-
-def step1(): # stepping legs forward
-    s11.ChangeDutyCycle(12.5)
-    s13.ChangeDutyCycle(7.5)
-    #print("Forward Stride")
-    move = 1 #true
-    return move
-def step2(): # pulling body forward
-    s11.ChangeDutyCycle(7.5)
-    s13.ChangeDutyCycle(12.5)
-    #print("Forward Pull")
-    move = 0 #false
-    return move
+##### LEG setup #####
+# Note: parameter list is: Leg(Name, horizontalShoulderServo, verticalShoulderServo, Adjacent Leg)
+# only numbers for pins, servo setup happens in the Leg class.
+frontRightLeg = Leg("Front Right Leg", 11, 13, None)
 
 height = 120
 width = 160
@@ -87,9 +66,9 @@ try:
             if (x>twothird):
                 if(Timer < 0): # Wait until Timer runs out, then take action
                     if(move == 1):
-                        move = step1() # 180 degree
+                        move = frontRightLeg.step() # 180 degree
                     elif(move == 0):
-                        move = step2() # 180 degree
+                        move = frontRightLeg.pull() # 180 degree
                     Timer = .25 # resetting timer
     
         # showing camera frames on desktop
@@ -100,8 +79,7 @@ try:
 
 except(KeyboardInterrupt):
 ##### Cleanup #####
-    s11.stop # stopping PWM
-    s13.stop
+    frontRightLeg.cleanUp()
     gpio.cleanup() # resets GPIO pin
     cv2.destroyAllWindow()
     scam.release()
