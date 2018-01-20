@@ -1,0 +1,38 @@
+
+
+class LegManager(self):
+
+Description:
+  Purpose is to coordinate movements and setup leg servos.
+
+Member Variables:
+  -- Leg Servo Pins (Integers)--
+  FRHS (Front Right Horizontal Shoulder pin)
+  FRVS (Front Right Vertical Shoulder pin)
+  FRK (Front Right Knee pin)
+  FLHS
+  FLVS
+  FLK
+  BRHS
+  BRVS
+  BRK
+  BLHS
+  BLVS
+  BLK
+  -- Legs (Legs)--
+  FR(name, h_shoulder_servo, v_shoulder_servo, knee_servo)
+  FL(...)
+  BR(...)
+  BL(...)
+    - Constructors for Leg objects, names stand for front right, front left, etc.
+  -- Other --
+  lastStep (char, 'r' or 'l') 
+    - Used to keep track of last step; was it right or left foot?
+
+Methods:
+  def __init__()
+    - sets up FR, FL, BR, and BL with the Leg Servo Pin variables as parameters.
+  def step()
+    - uses lastStep to determine which legs to move. 
+  def search(lastDir)
+    - rotate bot in direction of lastDir in order to find 
