@@ -1,0 +1,19 @@
+
+
+class Leg(self, name, h_shoulder_servo, v_shoulder_servo, knee_servo)
+
+Description:
+  The purpose is to encapsulate the related servos and coordinate their operation.
+ 
+Member Variables:
+  name - name of the leg ("Front Right Leg")
+  h_shoulder_servo - horizontal shoulder servo
+  v_shoulder_servo - vertical shoulder servo
+  knee_servo
+  
+Methods:
+  def __init__(self, name, h_shoulder_servo, v_shoulder_servo, knee_servo)
+    - assigns arguments to their respective member variables
+  def step(direction)
+    - Steps this individual leg forward if [direction is 1], [backward if direction is -1] by coordinating the 3 servos. 
+    - Also emits a message "(name) stepping forward".
