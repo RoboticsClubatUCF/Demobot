@@ -11,7 +11,7 @@
 #
 #
 ###################################################################
-import RPi.GPIO
+import RPi.GPIO as GPIO
 import time
 
 def setupGPIOandPWM(pin):
