@@ -24,11 +24,10 @@ def setupGPIOandPWM(pin):
 
 def main():
     print('Enter pin number: ')
-    pin_number = readInt()
+    pin_number = int(input())
     servo = setupGPIOandPWM(pin_number)
     print('Enter servo duty cycle: ')
-    s = readLine()
-    duty_cycle = float(s)
+    duty_cycle = float(input())
     servo.ChangeDutyCycle(duty_cycle)
     servo.stop
     GPIO.cleanup()
