@@ -1,3 +1,17 @@
+##################################################################
+# DEMOBOT
+#
+# FILENAME Servo.py
+#
+# AUTHOR Chris Feltner <chris.feltner@knights.ucf.edu>
+#        Joe Peaden <joe.peaden@gmail.com>
+#
+# BRIEF
+#   Leg class
+#
+#
+###################################################################
+
 import RPi.GPIO as GPIO
 import time
 
@@ -14,30 +28,27 @@ class Leg():
         # k for knee joint
         self.name = name
 
-        GPIO.setup(hs_servo_pin, GPIO.OUT)
-        GPIO.setup(vs_servo_pin, GPIO.OUT)
-        GPIO.setup(k_servo_pin, GPIO.OUT)
+        horizontalShoulder = Servo(hs_servo_pin)
+        verticalShoulder = Servo(vs_servo_pin)
+        knee = Servo(k_servo_pin)
         
-        self.hs_servo = GPIO.PWM(hs_servo_pin, 50)
-        hs_servo.start(7.5)
-        self.vs_servo = GPIO.PWM(vs_servo_pin, 50)
-        vs_servo.start(7.5)
+
         #self.k_servo = GPIO.PWM(k_servo_pin, 50)
         #k_servo.start(7.5)
 
         #self.adj_leg = adj_leg
 
     def step(self):
-        vs_servo.ChangeDutyCycle(12.5)
-        hs_servo.ChangeDutyCycle(12.5)
+        verticalShoulder.setPosition(180)
+        horizontalShoulder.setPosition(180)
         print("Stepping {} forward".format(name))
 
     def pull(self):
-        vs_servo.ChangeDutyCycle(7.5)
-        hs_servo.ChangeDutyCycle(7.5)
+        verticalShoulder.setPosition(90)
+        horizontalShoulder.setPosition(90)
         print("Pulling {} backward".format(name))
 
     def cleanUp():
-        hs_servo.stop
-        vs_servo.stop
-        k_servo.stop
+        horizontalShoulder.stop
+        verticalShoulder.stop
+        knee.stop
