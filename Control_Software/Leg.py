@@ -15,7 +15,7 @@
 import RPi.GPIO as GPIO
 import time
 
-class Leg():
+class Leg:
 
     def __init__(self, name, hs_servo_pin, vs_servo_pin, k_servo_pin):
         # hs for horizontal shoulder
