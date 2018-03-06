@@ -1,13 +1,14 @@
 ##################################################################
 # DEMOBOT
 #
-# FILENAME Servo.py
+# FILENAME Leg.py
 #
 # AUTHOR Chris Feltner <chris.feltner@knights.ucf.edu>
 #        Joe Peaden <joe.peaden@gmail.com>
 #
 # BRIEF
-#   Leg class
+#   Leg class; handles coordination of each servo in 
+#   the particular leg
 #
 #
 ###################################################################
@@ -20,8 +21,7 @@ class Leg:
     def __init__(self, name, hs_servo_pin, vs_servo_pin, k_servo_pin):
         # hs for horizontal shoulder
         # vs for vertical shoulder
-        # adj_leg is the adjacent leg
-        # k for knee joint
+        # k for knee
         self.name = name
 
         horizontalShoulder = Servo(hs_servo_pin)
