@@ -7,7 +7,7 @@
 #        Joe Peaden <joe.peaden@gmail.com>
 #
 # BRIEF
-#   Servo class
+#   Servo class to abstract and encapsulate low-level servo setup.
 #
 #
 ###################################################################
@@ -26,7 +26,7 @@ class Servo:
     # position - servo position in degrees
     # sets the position of the servo
     def setPosition(self, position):
-        #change position in degrees to duty cycle
+        # change position in degrees to duty cycle
         # SERVO controls:
         # 7.5 neutral, 2.5 is zero, 12.5 is 180
         dutyCycle = (position/180)*10 + 2.5
