@@ -1,43 +1,50 @@
+##################################################################
+# DEMOBOT
+#
+# FILENAME Leg.py
+#
+# AUTHOR Chris Feltner <chris.feltner@knights.ucf.edu>
+#        Joe Peaden <joe.peaden@gmail.com>
+#
+# BRIEF
+#   Leg class; handles coordination of each servo in 
+#   the particular leg
+#
+#
+###################################################################
+
 import RPi.GPIO as GPIO
 import time
 
-# SERVO controls:
-# 7.5 neutral, 2.5 is zero, 12.5 is 180
+class Leg:
 
-# Leg class for grouping servos and making things easier
-class Leg():
-
-    def __init__(self, name, hs_servo_pin, vs_servo_pin, k_servo_pin, adj_leg):
+    def __init__(self, name, hs_servo_pin, vs_servo_pin, k_servo_pin):
         # hs for horizontal shoulder
         # vs for vertical shoulder
-        # adj_leg is the adjacent leg
-        # k for knee joint
+        # k for knee
         self.name = name
 
-        GPIO.setup(hs_servo_pin, GPIO.OUT)
-        GPIO.setup(vs_servo_pin, GPIO.OUT)
-        GPIO.setup(k_servo_pin, GPIO.OUT)
-        
-        self.hs_servo = GPIO.PWM(hs_servo_pin, 50)
-        hs_servo.start(7.5)
-        self.vs_servo = GPIO.PWM(vs_servo_pin, 50)
-        vs_servo.start(7.5)
-        #self.k_servo = GPIO.PWM(k_servo_pin, 50)
-        #k_servo.start(7.5)
+        horizontalShoulder = Servo(hs_servo_pin)
+        verticalShoulder = Servo(vs_servo_pin)
+        knee = Servo(k_servo_pin)
 
-        #self.adj_leg = adj_leg
-
+    # step(self)
+    # step forward
     def step(self):
-        vs_servo.ChangeDutyCycle(12.5)
-        hs_servo.ChangeDutyCycle(12.5)
+        verticalShoulder.setPosition(180)
+        horizontalShoulder.setPosition(180)
         print("Stepping {} forward".format(name))
 
+    # pull(self)
+    # pull forward
     def pull(self):
-        vs_servo.ChangeDutyCycle(7.5)
-        hs_servo.ChangeDutyCycle(7.5)
+        verticalShoulder.setPosition(90)
+        horizontalShoulder.setPosition(90)
         print("Pulling {} backward".format(name))
 
-    def cleanUp():
-        hs_servo.stop
-        vs_servo.stop
-        k_servo.stop
+    # cleanUp(self)
+    # stop all servos in Leg
+    def cleanUp(self):
+        horizontalShoulder.stop
+        verticalShoulder.stop
+        knee.stop
