@@ -43,6 +43,22 @@ class Leg:
         ankle.setPosition(90)
         print("Pulling {} backward".format(name))
 
+    # driveMode(self)
+    # set leg to drive position
+    def driveMode(self):
+        # for now, use name of leg to determine if in
+        # front or back. Eventually should use Leg
+        # Manager for this
+        if(self.name == "FR" || "FL")
+            shoulder.setPosition(90)
+            knee.setPosition(60)
+            ankle.setPosition(120)
+        if(self.name == "BR" || "BL")
+            shoulder.setPosition(90)
+            knee.setPosition(60)
+            ankle.setPosition(30)
+        
+
     # cleanUp(self)
     # stop all servos in Leg
     def cleanUp(self):
