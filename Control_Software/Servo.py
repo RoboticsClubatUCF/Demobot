@@ -30,9 +30,10 @@ class Servo:
         # SERVO controls:
         # 7.5 neutral, 2.5 is zero, 12.5 is 180
         dutyCycle = (position/180)*10 + 2.5
-        servo.changeDutyCycle(dutyCycle)
+        self.servo.ChangeDutyCycle(dutyCycle)
+        
 
     # stop(self)
     # stops servo
     def stop(self):
-        servo.stop
+        self.servo.stop
