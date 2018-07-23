@@ -1,27 +1,11 @@
-import serial as serial
-import RPi.GPIO as gpio
-import time
+# Motor serial information:
+# MOTOR 1: 1 reverse, 64 stop, 127 forward
+# MOTOR 2: 128 reverse, 192 stop, 255 forward
 
-ser = serial.Serial('/dev/ttyS0', 
-		    baudrate=9600,
- 		    parity=serial.PARITY_NONE,
-		    stopbits=serial.STOPBITS_ONE,
-		    bytesize=serial.EIGHTBITS,
+import serial
 
-	            timeout=1)
+ser = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
-#while(True):
- #  ser.write('200')
-#   time.sleep(1)
-#   ser.write('0')
-#   time.sleep(1)
-
-#if KeyBoardInterrupt:
 while(True):
-	try:
-		ser.write(chr(int('0')))
-		time.sleep(1)
-		ser.write(chr(int('100')))
-		time.sleep(1)
-	except(KeyboardInterrupt):
-		ser.write(chr(int('0')))
+    ser.write(chr(int('127')))# Right Motor
+    ser.write(chr(int('255')))# Left Motor
