@@ -1,0 +1,15 @@
+<launch>
+ 
+  <node name="readSerial" pkg="beginner_tutorials" type="readSerial.py" output="screen"/>
+
+  <node name="gps" pkg="beginner_tutorials" type="gps.py" output="screen"/>
+
+  <node name="ultra" pkg="beginner_tutorials" type="ultra.py" output="screen"/>
+
+  <node name="camera" pkg="beginner_tutorials" type="camera.py" output="screen"/>
+
+  <node name="priority" pkg="beginner_tutorials" type="priority.py" output="screen"/>
+
+  <node name="motor" pkg="beginner_tutorials" type="motor.py" output="screen"/>
+
+</launch>
